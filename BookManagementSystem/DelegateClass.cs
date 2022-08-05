@@ -27,5 +27,23 @@ namespace BookManagementSystem
                 findBook.Description = book.Description;
             }
         }
+
+        public void UpdateBookAuthor(Book book)
+        {
+            var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
+            if (findBook != null)
+            {
+                findBook.Description = book.Author;
+            }
+        }
+
+        public void UpdateBookName(Book book)
+        {
+            var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
+            if (findBook != null)
+            {
+                findBook.Description = book.Name;
+            }
+        }
     }
 }
