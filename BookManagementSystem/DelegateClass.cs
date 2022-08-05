@@ -8,6 +8,7 @@ namespace BookManagementSystem
         public delegate void BookService(Book book); // Create and update
         public delegate void Service(Guid id); // Get and delete
         
+        public delegate void BookNotification(object obj,string name);
 
 
     }
