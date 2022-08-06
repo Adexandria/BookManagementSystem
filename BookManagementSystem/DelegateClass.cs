@@ -11,24 +11,30 @@ namespace BookManagementSystem
 
         public delegate void BookNotification(object obj,string name);
 
+        // Event objects
         static EventClass createEvent = new();
-        static EventClass updateEvent = new();
-        static EventClass deleteEvent = new();
+        static EventClass updateDescriptionEvent = new();
+        static EventClass updateBookNameEvent = new();
+        static EventClass updatebookAuthorEvent = new();
+        static EventClass deleteBookEvent = new();
         static EventClass getEvent = new();
+        static EventClass endEvent = new();
         static EventHandler eventHandler = new();
         
       
 
-        public static void GetBook(int id)
+        public void GetBook(int id)
         {
             var _book = books.FirstOrDefault(x => x.BookId == id);
+            getEvent.StartProcess(_book.Name);
             if (_book != null)
             {
-                Console.WriteLine(_book);
+                Console.WriteLine($"The book name {_book.Name} has an author {_book.Author} with description {_book.Description} and id {_book.BookId}");
             }
             else Console.WriteLine("Book not found");
+            
+            endEvent.EndProcess(_book.Name);
         }
-        
 
         public void CreateBook(Book book)
         {
@@ -39,55 +45,57 @@ namespace BookManagementSystem
             {
                 books.Add(book);
             }
-            createEvent.EndProcess(book.Name);
             
+            endEvent.EndProcess(book.Name);
         }
 
         public void UpdateBookDescription(Book book)
-
         {
-            updateEvent.BookEvent += eventHandler.UpdateBookDescription;
-            updateEvent.StartProcess(book.Name);
+            updateDescriptionEvent.BookEvent += eventHandler.UpdateBookDescription;
+            updateDescriptionEvent.StartProcess(book.Name);
             var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
             if (findBook != null)
             {
                 findBook.Description = book.Description;
             }
-            updateEvent.EndProcess(book.Name);
+            endEvent.EndProcess(book.Name);
 
         }
 
         public void UpdateBookAuthor(Book book)
         {
-            updateEvent.BookEvent += eventHandler.UpdateBookAuthor;
-            updateEvent.StartProcess(book.Name);
+            updatebookAuthorEvent.BookEvent += eventHandler.UpdateBookAuthor;
+            updatebookAuthorEvent.StartProcess(book.Name);
             var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
             if (findBook != null)
             {
                 findBook.Author = book.Author;
             }
-            updateEvent.EndProcess(book.Name);
+            endEvent.EndProcess(book.Name);
         }
 
         public void UpdateBookName(Book book)
         {
-            updateEvent.BookEvent += eventHandler.UpdateBookName;
-            updateEvent.StartProcess(book.Name);
+            updateBookNameEvent.BookEvent += eventHandler.UpdateBookName;
+            updateBookNameEvent.StartProcess(book.Name);
             var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
             if (findBook != null)
             {
                 findBook.Name = book.Name;
             }
-            updateEvent.EndProcess(book.Name);
+            endEvent.EndProcess(book.Name);
         }
         
-          public static void DeleteBook(int id)
-        {
+          public void DeleteBookById(int id)
+          {          
             var _book = books.FirstOrDefault(x => x.BookId == id);
+            deleteBookEvent.BookEvent += eventHandler.DeleteBook;
+            deleteBookEvent.StartProcess(_book.Name);
             if (_book != null)
             {
                 books.Remove(_book);
             }
-        }
+            endEvent.EndProcess(_book.Name);
+          }
     }
 }
