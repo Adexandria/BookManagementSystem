@@ -4,10 +4,11 @@ namespace BookManagementSystem
 {
     public class DelegateClass
     {
-        List<Book> books = new();
+        static List<Book> books = new();
+
         public delegate void BookService(Book book); // Create and update
-        public delegate void Service(Guid id); // Get and delete
-        
+        public delegate void Service(int id);  // Get and delete    
+
         public delegate void BookNotification(object obj,string name);
 
         static EventClass createEvent = new();
@@ -15,7 +16,18 @@ namespace BookManagementSystem
         static EventClass deleteEvent = new();
         static EventClass getEvent = new();
         static EventHandler eventHandler = new();
+        
+      
 
+        public static void GetBook(int id)
+        {
+            var _book = books.FirstOrDefault(x => x.BookId == id);
+            if (_book != null)
+            {
+                Console.WriteLine(_book);
+            }
+            else Console.WriteLine("Book not found");
+        }
         
 
         public void CreateBook(Book book)
@@ -67,6 +79,15 @@ namespace BookManagementSystem
                 findBook.Name = book.Name;
             }
             updateEvent.EndProcess(book.Name);
+        }
+        
+          public static void DeleteBook(int id)
+        {
+            var _book = books.FirstOrDefault(x => x.BookId == id);
+            if (_book != null)
+            {
+                books.Remove(_book);
+            }
         }
     }
 }
