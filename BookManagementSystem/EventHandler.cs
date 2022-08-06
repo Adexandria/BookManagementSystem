@@ -20,7 +20,7 @@ namespace BookManagementSystem
 
         public void UpdateBookName(object obj, string name)
         {
-            Console.WriteLine($"{name} book  updated successfully");
+            Console.WriteLine($"{name} book name updated successfully");
         }
 
         public void UpdateBookAuthor(object obj, string name)
