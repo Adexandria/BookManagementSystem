@@ -10,6 +10,40 @@ namespace BookManagementSystem
         
         public delegate void BookNotification(object obj,string name);
 
+        public void CreateBook(Book book)
+        {
+            var checkBook = books.FirstOrDefault(x => x.Equals(book));
+            if(checkBook is null)
+            {
+                books.Add(book);
+            }
+        }
 
+        public void UpdateBookDescription(Book book)
+        {
+            var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
+            if (findBook != null)
+            {
+                findBook.Description = book.Description;
+            }
+        }
+
+        public void UpdateBookAuthor(Book book)
+        {
+            var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
+            if (findBook != null)
+            {
+                findBook.Description = book.Author;
+            }
+        }
+
+        public void UpdateBookName(Book book)
+        {
+            var findBook = books.FirstOrDefault(x => x.BookId == book.BookId);
+            if (findBook != null)
+            {
+                findBook.Description = book.Name;
+            }
+        }
     }
 }
